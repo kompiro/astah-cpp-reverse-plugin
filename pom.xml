@@ -209,6 +209,7 @@
             <Bundle-Activator>${bundle.namespace}.Activator</Bundle-Activator>
             <Astah-Version>${astah.version}</Astah-Version>
             <Astah-Edition>${astah.edition}</Astah-Edition>
+            <Bundle-DocURL>%bundle.doc_url</Bundle-DocURL>
             <!-- | each module can override these defaults in their osgi.bnd file -->
             <_include>-osgi.bnd</_include>
             <Embed-Dependency>*;scope=compile|runtime;type=!pom</Embed-Dependency>
