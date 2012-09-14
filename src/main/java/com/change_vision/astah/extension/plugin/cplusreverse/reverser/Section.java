@@ -1,11 +1,12 @@
 package com.change_vision.astah.extension.plugin.cplusreverse.reverser;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.xml.sax.SAXException;
-
 
 import com.change_vision.jude.api.inf.exception.InvalidEditingException;
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
@@ -21,7 +22,7 @@ import com.change_vision.jude.api.inf.model.IElement;
  */
 public class Section implements IConvertToJude {
 	private String kind;
-	private Vector members;
+	private List<Member> members;
 	private CompoundDef parent;
 
 	public CompoundDef getParent() {
@@ -33,14 +34,14 @@ public class Section implements IConvertToJude {
 	}
 
 	public Section() {
-		members = new Vector();
+		members = new ArrayList<Member>();
 	}
 
-	public Vector getMembers() {
+	public List<Member> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Vector members) {
+	public void setMembers(List<Member> members) {
 		this.members = members;
 	}
 
@@ -57,12 +58,19 @@ public class Section implements IConvertToJude {
 		this.kind = kind;
 	}
 
+	@Override
 	public IElement convertToJudeModel(IElement parent, File[] files) throws InvalidEditingException,
 			ClassNotFoundException, ProjectNotFoundException, IOException, SAXException {
-		for (Iterator iterator = members.iterator(); iterator.hasNext();) {
-			Member member = (Member) iterator.next();
-			member.convertToJudeModel(parent, files);
-		}
+        Member[] theMembers = members.toArray(new Member[members.size()]);
+        for (int i = 0; i < theMembers.length; ++i) {
+            Member member = theMembers[i];
+            member.convertToJudeModel(parent, files);
+        }
 		return parent;
 	}
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
 }
